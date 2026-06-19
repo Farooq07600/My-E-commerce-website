@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Paste the CDN link here -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Hania.pk - Premium Store</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="amazon-navbar">
+    <div class="nav-top">
+        <div class="nav-logo">
+            
+        </div>
+        <div class="nav-delivery">
+            <span class="del-to">Deliver to</span>
+            <span class="del-loc">Pakistan</span>
+        </div>
+
+        <div class="search-container">
+            <div class="all-dropdown">All <i class="fa-solid fa-caret-down"></i></div>
+            
+            <div class="search-input-wrapper">
+                <input type="text" class="search-input" id="search-bar" placeholder="Search Amazon">
+                
+                <div class="search-hardware-icons">
+                    <button type="button" class="mic-btn" id="mic-btn" title="Search with voice"><i class="fa-solid fa-microphone fa-lg" style="color: rgb(40, 38, 31);"></i></button>
+                    <button type="button" class="cam-btn" id="camera-btn" title="Search with camera"><i class="fa-solid fa-camera fa-lg" style="color: rgb(40, 38, 31);"></i></button>
+
+                </div>
+            </div>
+
+            <button class="search-btn" id="search-submit-btn"><i class="fa-solid fa-magnifying-glass fa-lg" style="color: rgb(40, 38, 31);"></i></button>
+        </div>
+
+        <div class="nav-right-options">
+            <div class="nav-link">
+                <span class="line-1">Hello, sign in</span>
+                <span class="line-2">Account & Lists</span>
+            </div>
+            <div class="nav-link">
+                <span class="line-1">Returns</span>
+                <span class="line-2">& Orders</span>
+            </div>
+            <div class="nav-cart-btn" onclick="toggleCartModal()">
+                <span id="cart-counter">0</span>
+                <span class="cart-text">Cart</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="nav-bottom-sub">
+        <!-- Row 2 sub bar mein is element ko use karein trigger ke liye -->
+<span class="menu-all" onclick="openNavDrawer()">
+    <i class="fa-solid fa-bars" style="color: rgb(255, 255, 255);"></i> All
+</span>
+
+<!-- HANIA.PK CUSTOM SIDEBAR DRAWER -->
+<div id="amazonSideDrawer" class="nav-drawer-panel">
+    <!-- Header Block (Aapka Unique Brand Name) -->
+    <div class="drawer-user-header">
+        <i class="fa-solid fa-circle-user"></i> Hello, sign in
+    </div>
+    
+    <!-- Navigation Links Scroll Engine Container -->
+    <div class="drawer-scroll-body">
+        
+        <!-- Section 1: Top Categories (Aapke Data Base Se Linked) -->
+        <div class="drawer-group-section">
+            <h4>Shop by Department</h4>
+            <a href="#" onclick="filterByCategory('all'); closeNavDrawer()">All Products <i class="fa-solid fa-chevron-right"></i></a>
+            <a href="#" onclick="filterByCategory('Electronics'); closeNavDrawer()">Electronics <i class="fa-solid fa-chevron-right"></i></a>
+            <a href="#" onclick="filterByCategory('Fashion'); closeNavDrawer()">Fashion <i class="fa-solid fa-chevron-right"></i></a>
+            <a href="#" onclick="filterByCategory('Footwear'); closeNavDrawer()">Footwear & Shoes <i class="fa-solid fa-chevron-right"></i></a>
+            <a href="#" onclick="filterByCategory('Fitness'); closeNavDrawer()">Sports & Fitness <i class="fa-solid fa-chevron-right"></i></a>
+            <a href="#" onclick="filterByCategory('Kitchen'); closeNavDrawer()">Kitchen & Appliances <i class="fa-solid fa-chevron-right"></i></a>
+        </div>
+        
+        <hr class="drawer-divider">
+        
+        <!-- Section 2: User Settings & Ledger Panels -->
+        <div class="drawer-group-section">
+            <h4>Help & Account Settings</h4>
+            <a href="#" onclick="toggleCartModal(); closeNavDrawer()">Your Shopping Cart <i class="fa-solid fa-cart-shopping" style="font-size:12px;"></i></a>
+            <a href="#">Your Orders <i class="fa-solid fa-chevron-right"></i></a>
+            <a href="#">Returns & Replacements <i class="fa-solid fa-chevron-right"></i></a>
+            <a href="#">Help Center <i class="fa-solid fa-chevron-right"></i></a>
+        </div>
+    </div>
+</div>
+
+<!-- Background Dim Shadow Overlay Layer Grid Control -->
+<div id="drawerMaskOverlay" class="drawer-mask-overlay" onclick="closeNavDrawer()">
+    <span class="drawer-close-trigger-x" onclick="closeNavDrawer()">&times;</span>
+</div>
+
+        <span class="menu-all" onclick="filterByCategory('all')">All</span>
+        <span onclick="filterByCategory('electronics')">Electonics</span>
+        <span onclick="filterByCategory('fashion')">Faishan</span>
+        <span>Registry</span>
+        <span>Gift Cards</span>
+        <span>Sell</span>
+    </div>
+</header>
+<!-- ============================================================
+     HERO SLIDER — ADVANCED LEVEL
+     ============================================================ -->
+
+<section class="hero-slider" id="heroSlider">
+
+    <!-- Slider Container (All Slides) -->
+    <div class="slider-container">
+
+        <!-- ==========================================================
+             SLIDE 1 — FLASH SALE
+             ========================================================== -->
+        <div class="slide active" data-index="0">
+            <div class="slide-content">
+                
+                <!-- Left Side: Text -->
+                <div class="slide-text">
+                    <span class="badge flash">🔥 FLASH SALE</span>
+                    <h1 class="slide-title">70% OFF</h1>
+                    
+                    <!-- Countdown Timer -->
+                    <div class="countdown-timer">
+                        <span class="timer-block">
+                            <span id="hours">02</span>h
+                        </span>
+                        <span class="timer-separator">:</span>
+                        <span class="timer-block">
+                            <span id="minutes">45</span>m
+                        </span>
+                        <span class="timer-separator">:</span>
+                        <span class="timer-block">
+                            <span id="seconds">30</span>s
+                        </span>
+                    </div>
+                    
+                    <p class="slide-description">Biggest Sale of the Year</p>
+                    <p class="slide-sub">Limited Time Offer</p>
+                    
+                    <!-- Stats -->
+                    <div class="slide-stats">
+                        <span>🛒 5,000+ Sold Today</span>
+                        <span>🚀 Free Shipping</span>
+                        <span>🔒 Secure Payment</span>
+                    </div>
+                    
+                    <!-- Buttons -->
+                    <div class="slide-buttons">
+                        <button class="btn-primary" onclick="shopNow()">🚀 Shop Now →</button>
+                        <button class="btn-secondary" onclick="watchVideo()">▶️ Watch Video</button>
+                    </div>
+                </div>
+                
+                <!-- Right Side: Image -->
+                <div class="slide-image">
+                    <img src="1.png" alt="Featured Product">
+                </div>
+                
+            </div>
+        </div>
+
+        <!-- ==========================================================
+             SLIDE 2 — NEW ARRIVALS
+             ========================================================== -->
+        <div class="slide" data-index="1">
+            <div class="slide-content">
+                <div class="slide-text">
+                    <span class="badge new">🆕 NEW ARRIVALS</span>
+                    <h1 class="slide-title">Summer Collection<br>2024</h1>
+                    <p class="slide-description">Fresh styles, unbeatable prices</p>
+                    <p class="slide-sub">Shop the latest trends</p>
+                    <div class="slide-stats">
+                        <span>👗 100+ New Styles</span>
+                        <span>🚀 Free Shipping</span>
+                        <span>💳 Easy Returns</span>
+                    </div>
+                    <div class="slide-buttons">
+                        <button class="btn-primary" onclick="shopNow()">🛍️ Explore Now →</button>
+                    </div>
+                </div>
+                <div class="slide-image">
+                    <img src="3.png" alt="Summer Collection">
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================================
+             SLIDE 3 — BEST SELLERS
+             ========================================================== -->
+        <div class="slide" data-index="2">
+            <div class="slide-content">
+                <div class="slide-text">
+                    <span class="badge best">⭐ BEST SELLERS</span>
+                    <h1 class="slide-title">Top Rated<br>Products</h1>
+                    <p class="slide-description">What others are buying right now</p>
+                    <p class="slide-sub">Customer favorites</p>
+                    <div class="slide-stats">
+                        <span>🏆 #1 in Pakistan</span>
+                        <span>⭐ 4.8 Average Rating</span>
+                        <span>🔥 10,000+ Sold</span>
+                    </div>
+                    <div class="slide-buttons">
+                        <button class="btn-primary" onclick="shopNow()">🏆 View Best Sellers →</button>
+                    </div>
+                </div>
+                <div class="slide-image">
+                    <img src="2.png" alt="Best Sellers">
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ==========================================================
+         SLIDER CONTROLS
+         ========================================================== -->
+    
+    <!-- Previous Button -->
+    <button class="slider-btn prev-btn" id="prevBtn" aria-label="Previous slide">
+        ❮
+    </button>
+    <!-- Next Button -->
+    <button class="slider-btn next-btn" id="nextBtn" aria-label="Next slide">
+        ❯
+    </button>
+
+    <!-- ==========================================================
+         DOT INDICATORS
+         ========================================================== -->
+    <div class="slider-dots" id="sliderDots">
+        <span class="dot active" data-index="0"></span>
+        <span class="dot" data-index="1"></span>
+        <span class="dot" data-index="2"></span>
+    </div>
+</section>
+</section> <!--  -->
+<div class="main-container">
+    <div class="product-grid" id="product-container"></div>
+</div>
+
+<!-- =========================================================================
+   🆕 ADMINISTRATIVE LOCAL STORAGE MANAGEMENT DASHBOARD
+   ========================================================================= -->
+<div id="dashboard-page-view" class="dashboard-layout-view">
+    <div class="dashboard-wrapper-card">
+        
+        <!-- Header Section -->
+        <div class="dashboard-header-panel">
+            <h2 class="dashboard-main-title">⚙️ Administrative Inventory Dashboard</h2>
+            <button class="dashboard-close-action-btn" onclick="document.getElementById('product-container').style.setProperty('display','grid','important'); document.getElementById('dashboard-page-view').style.setProperty('display','none','important');">
+                ← Close & Back to Shop
+            </button>
+        </div>
+
+        <!-- System Summary Counter Stats -->
+        <div class="dashboard-stats-grid">
+            <div class="dashboard-stat-box">
+                <span class="stat-box-label">Total Active SKUs</span>
+                <p id="dash-total-items" class="stat-box-number">0</p>
+            </div>
+            <div class="dashboard-stat-box">
+                <span class="stat-box-label">Average Store Price</span>
+                <p id="dash-avg-price" class="stat-box-number">PKR 0</p>
+            </div>
+        </div>
+
+        <!-- Split Grid Matrix Content -->
+        <div class="dashboard-split-columns">
+            
+            <!-- Table Container -->
+            <div class="dashboard-table-frame">
+                <table class="dashboard-data-table">
+                    <thead>
+                        <tr class="table-header-row">
+                            <th class="table-th-cell">ID</th>
+                            <th class="table-th-cell">Product Title</th>
+                            <th class="table-th-cell">Category</th>
+                            <th class="table-th-cell">Price</th>
+                            <th class="table-th-cell center-text">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dashboard-items-table-body">
+                        <!-- Dynamic items generated via Javascript LocalStorage -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- CRUD Form Insert Panel -->
+            <div class="dashboard-form-frame">
+                <h3 class="dashboard-form-title">➕ Add New Product</h3>
+                <form id="dashboard-add-product-form" onsubmit="addNewDashboardProduct(event)" class="dashboard-crud-form">
+                    <div class="form-input-group">
+                        <label class="form-field-label">Product Title</label>
+                        <input type="text" id="dash-add-title" placeholder="e.g. Gaming Keyboard" required class="form-text-input">
+                    </div>
+                    <div class="form-input-group">
+                        <label class="form-field-label">Main Department</label>
+                        <select id="dash-add-category" class="form-select-node">
+                            <option value="Electronics">Electronics</option>
+                            <option value="Fashion">Fashion</option>
+                            <option value="Furniture">Furniture</option>
+                            <option value="Kitchen">Kitchen</option>
+                        </select>
+                    </div>
+                    <div class="form-input-group">
+                        <label class="form-field-label">Price (USD)</label>
+                        <input type="number" step="0.01" id="dash-add-price" placeholder="e.g. 29.99" required class="form-text-input">
+                    </div>
+                    <button type="submit" class="form-submit-green-btn">Save to LocalStorage</button>
+                </form>
+            </div>
+            
+        </div>
+        
+    </div>
+</div>
+
+
+<!-- Full Screen Amazon-Style Product Page Section View -->
+<div id="full-product-page-view" class="full-product-page-view">
+    
+    <!-- Back Button -->
+    <button id="back-to-home-btn" class="back-to-home-btn">&#8592; Back to results</button>
+
+    <!-- Core 3-Column Split Grid -->
+    <div class="detail-page-container">
+        
+        <!-- Column 1: Images Preview -->
+        <div class="detail-layout-left">
+            <div class="thumb-strip-gallery"></div>
+            <div class="main-image-display-frame">
+                <img id="detail-main-img" src="" alt="Main Panel">
+            </div>
+        </div>
+
+        <!-- Column 2: Center Meta Info -->
+        <div class="detail-layout-center">
+            <h1 id="detail-title" class="product-full-headline"></h1>
+            <div id="detail-rating" class="rating-strip-stars"></div>
+            <hr class="ui-divider">
+            
+            <div class="pricing-card-strip">
+                <span class="pkr-label">Price:</span>
+                <span class="price-val-huge">PKR <span id="detail-price-pkr"></span></span>
+            </div>
+            <div class="typical-retail-strike">List Price: <span id="detail-typical-price"></span></div>
+            <p class="import-tax-clause">Inclusive of all shipping and import duties.</p>
+
+            <hr class="ui-divider">
+            <div class="variant-matrix-section">
+                <h4>Color Variant</h4>
+                <div class="color-variants-grid"></div>
+            </div>
+            <div class="size-specs-picker">
+                <h4>Size: <span id="selected-size-label"></span></h4>
+                <div class="chips-flex-row"></div>
+            </div>
+        </div>
+
+        <!-- Column 3: Buybox -->
+        <div class="detail-layout-right-buybox">
+            <div class="buybox-price-tag">PKR <span id="buybox-price"></span></div>
+            <p class="delivery-eta-msg">Delivery drops by next working week window timeframe.</p>
+            <p class="stock-status-green">In Stock</p>
+            
+            <div class="qty-selector-wrapper">
+                <label for="buybox-qty-select">Quantity: </label>
+                <select id="buybox-qty-select">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </div>
+
+            <div class="buybox-actions-flex">
+                <button id="page-add-to-cart-btn" class="action-btn-gold">Add to Cart</button>
+                <button class="action-btn-orange">Buy Now</button>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- Amazon Bottom Recommendation Row Matrix -->
+    <div class="recommendations-container-section">
+        <h2>Products related to this item</h2>
+        
+        <!-- Slider Track Grid/Flex Area -->
+        <div id="recommended-products-slider-track" class="recommended-products-slider-track">
+            <!-- JS dynamic cards render here -->
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="cart-modal">
+    <div class="modal-content">
+        <span class="close-modal" id="close-cart-btn">&times;</span>
+        <h2>Shopping Cart Ledger</h2>
+        <div id="cart-items-list"></div>
+        <div class="cart-total-box">
+            Subtotal: $<span id="cart-total-price">0.00</span>
+        </div>
+        <button class="checkout-btn" id="checkout-btn">Proceed to checkout</button>
+    </div>
+</div>
+
+<div class="modal" id="camera-modal">
+    <div class="modal-content camera-modal-box">
+        <span class="close-modal" id="close-camera-btn">&times;</span>
+        <h2>Visual Product Recognition</h2>
+        <p>Position an item securely inside the canvas boundaries.</p>
+
+        <div class="webcam-wrapper">
+            <video id="webcam-stream" autoplay playsinline></video>
+            <div class="scan-frame"></div>
+        </div>
+
+        <button class="checkout-btn" id="capture-btn">Scan Snapshot</button>
+        <canvas id="hidden-capture-canvas"></canvas>
+    </div>
+</div>
+
+<footer class="site-footer">
+    <div class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">
+        Back to top
+    </div>
+
+    <div class="footer-container">
+        <div class="footer-col">
+            <h4>Get to Know Us</h4>
+            <ul>
+                <li><a href="#">About Hania.pk</a></li>
+                <li><a href="#">Careers</a></li>
+                <li><a href="#">Press Releases</a></li>
+                <li><a href="#">Corporate Responsibility</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-col">
+            <h4>Connect with Us</h4>
+            <ul>
+                <li><a href="#">Facebook</a></li>
+                <li><a href="#">Twitter / X</a></li>
+                <li><a href="#">Instagram</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-col">
+            <h4>Make Money with Us</h4>
+            <ul>
+                <li><a href="#">Sell on Hania.pk</a></li>
+                <li><a href="#">Protect & Build Your Brand</a></li>
+                <li><a href="#">Become an Affiliate</a></li>
+                <li><a href="#">Advertise Your Products</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-col">
+            <h4>Let Us Help You</h4>
+            <ul>
+                <li><a href="#">Your Account</a></li>
+                <li><a href="#">Your Orders</a></li>
+                <li><a href="#">Shipping Rates & Policies</a></li>
+                <li><a href="#">Returns & Replacements</a></li>
+                <li><a href="#">Help Center</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-branding">
+        <div class="footer-logo">hania<span>.pk</span></div>
+        <div class="footer-global-selectors">
+            <span class="selector-box"><i class="fa-solid fa-globe"></i> English</span>
+            <span class="selector-box"><i class="fa-solid fa-dollar-sign"></i> USD - U.S. Dollar</span>
+            <span class="selector-box"><i class="fa-solid fa-flag-usa"></i> United States</span>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <div class="footer-legal-links">
+            <a href="#">Conditions of Use</a>
+            <a href="#">Privacy Notice</a>
+            <a href="#">Consumer Health Data Privacy Disclosure</a>
+            <a href="#">Your Ads Privacy Choices</a>
+        </div>
+        <p>&copy; 2026, Hania.pk, Inc. or its affiliates. All rights reserved.</p>
+    </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

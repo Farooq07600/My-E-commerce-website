@@ -1,0 +1,1994 @@
+/* =========================================================================
+   1. GLOBAL VARIABLES & RESET
+   ========================================================================= */
+:root {
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+    --bg-dark: #0f172a;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    --card-bg: #ffffff;
+    --success: #10b981;
+    --danger: #ef4444;
+    --font-stack: 'Inter', system-ui, -apple-system, sans-serif;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-stack);
+    background-color: #f8fafc;
+    color: var(--text-main);
+    line-height: 1.5;
+    height: 100vh;
+}
+
+/* =========================================================================
+   2. NAVBAR & SEARCH ENGINE CONTROLS
+   ========================================================================= */
+header, .navbar-container {
+    background-color: #ffffff;
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-sm);
+}
+
+.search-wrapper-node {
+    display: flex;
+    align-items: center;
+    background: #f1f5f9;
+    border: 1px solid var(--border-color);
+    border-radius: 9999px;
+    padding: 0.25rem 0.5rem;
+    width: 100%;
+    max-width: 500px;
+    transition: all 0.2s;
+}
+
+.search-wrapper-node:focus-within {
+    border-color: var(--primary-color);
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+#search-bar {
+    border: none;
+    background: transparent;
+    padding: 0.5rem 1rem;
+    width: 100%;
+    font-size: 0.95rem;
+    outline: none;
+    color: var(--text-main);
+}
+
+#mic-btn, #camera-btn, #search-submit-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#mic-btn:hover, #camera-btn:hover {
+    background-color: #e2e8f0;
+}
+
+#search-submit-btn {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.9rem;
+}
+
+#search-submit-btn:hover {
+    background-color: var(--primary-hover);
+}
+
+/* =========================================================================
+   3. PRODUCT GRID & CARDS
+   ========================================================================= */
+#product-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+.product-card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
+}
+
+.product-card-img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    background-color: #f1f5f9;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.product-info-block {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.product-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #0f172a;
+    margin-bottom: 0.5rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; 
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    height: 3rem;
+}
+
+.product-rating {
+    color: #f59e0b;
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+}
+
+.product-price {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--bg-dark);
+}
+
+.add-btn {
+    margin: 0 1.25rem 1.25rem;
+    background-color: #f8fafc;
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    padding: 0.75rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.product-card:hover .add-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.add-btn:hover {
+    background-color: var(--primary-hover)  ;
+    color: white  ;
+}
+
+/* =========================================================================
+   4. PRODUCT DETAIL PAGE STRUCTURE
+   ========================================================================= */
+.detail-layout-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+}
+
+#detail-main-img {
+    width: 100%;
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    object-fit: cover;
+    background: #fff;
+}
+
+.thumb-strip-gallery {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.thumb-box {
+    width: 70px;
+    height: 70px;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.thumb-box.active, .thumb-box:hover {
+    border-color: var(--primary-color);
+}
+
+.thumb-box-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Color & Size Interactive Nodes */
+.color-variants-grid {
+    display: flex;
+    gap: 0.75rem;
+    margin: 1rem 0;
+}
+
+.color-box-item {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    padding: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.color-box-item.active {
+    border-color: var(--primary-color);
+}
+
+.color-box-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.chips-flex-row {
+    display: flex;
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+
+.size-chip-node {
+    border: 1px solid var(--border-color);
+    padding: 0.5rem 1.25rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    background: white;
+    transition: all 0.2s;
+}
+
+.size-chip-node.active, .size-chip-node:hover {
+    border-color: var(--primary-color);
+    background-color: rgba(37, 99, 235, 0.05);
+    color: var(--primary-color);
+}
+
+/* Price Tags */
+#detail-typical-price {
+    text-decoration: line-through;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+/* =========================================================================
+   5. MODAL SYSTEM (CART & CAMERA CANVAS)
+   ========================================================================= */
+.modal-overlay, #cart-modal, #camera-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content-card {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    max-width: 550px;
+    width: 90%;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+/* Cart Specific Alignment */
+.cart-item-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr auto;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.cart-item-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.cart-item-specs {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.cart-item-qty-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #f1f5f9;
+    padding: 0.25rem;
+    border-radius: 6px;
+}
+
+.qty-btn {
+    border: none;
+    background: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: var(--shadow-sm);
+}
+
+.remove-item-btn {
+    background: none;
+    border: none;
+    color: var(--danger);
+    font-weight: 500;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+/* Video Canvas Layout */
+#webcam-stream {
+    width: 100%;
+    border-radius: 12px;
+    background: #000;
+    transform: scaleX(-1); /* Mirror view */
+}
+/* =========================================================================
+   PROFESSIONAL AMAZON-STYLE PREMIUM FOOTER
+   ========================================================================= */
+.site-footer {
+    background-color: #232f3e; /* Premium Slate/Navy Dark Background */
+    color: #eaeded;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 14px;
+    margin-top: 5rem;
+    width: 100%;
+}
+
+/* 1. BACK TO TOP BAR */
+.site-footer .back-to-top {
+    background-color: #37475a;
+    color: #ffffff;
+    text-align: center;
+    padding: 15px 0;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.site-footer .back-to-top:hover {
+    background-color: #485769; /* Soft highlight shift on hover */
+}
+
+/* 2. FOOTER MAIN LINKS NAVIGATION CONTAINER */
+.site-footer .footer-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 45px 20px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+}
+
+.site-footer .footer-col h4 {
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 14px;
+}
+
+.site-footer .footer-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.site-footer .footer-col ul li {
+    margin-bottom: 10px;
+}
+
+.site-footer .footer-col ul li a {
+    color: #ddd;
+    text-decoration: none;
+    font-size: 13.5px;
+    transition: text-decoration 0.15s ease, color 0.15s ease;
+    display: inline-block;
+}
+
+.site-footer .footer-col ul li a:hover {
+    color: #ffffff;
+    text-decoration: underline; /* Professional minimalistic text underline */
+}
+
+/* 3. BRANDING & REGIONAL SELECTORS */
+.site-footer .footer-branding {
+    border-top: 1px solid #3a4553;
+    padding: 35px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 50px;
+}
+
+.site-footer .footer-logo {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: #ffffff;
+    text-transform: lowercase;
+}
+
+.site-footer .footer-logo span {
+    color: #febd69; /* Premium E-commerce Accent Orange/Yellow Gold */
+}
+
+.site-footer .footer-global-selectors {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.site-footer .selector-box {
+    border: 1px solid #848688;
+    border-radius: 4px;
+    padding: 6px 14px;
+    font-size: 12.5px;
+    color: #ccc;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: transparent;
+    transition: border-color 0.2s, color 0.2s;
+}
+
+.site-footer .selector-box:hover {
+    border-color: #ffffff;
+    color: #ffffff;
+}
+
+.site-footer .selector-box i {
+    font-size: 12px;
+    color: #a6a6a6;
+}
+
+/* 4. LEGAL & COPYRIGHT BAR */
+.site-footer .footer-bottom {
+    background-color: #131a22; /* Deeper black panel for standard corporate alignment */
+    padding: 30px 20px;
+    text-align: center;
+    font-size: 12px;
+    color: #b6b6b6;
+}
+
+.site-footer .footer-legal-links {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+}
+
+.site-footer .footer-legal-links a {
+    color: #ddd;
+    text-decoration: none;
+    transition: text-decoration 0.15s;
+}
+
+.site-footer .footer-legal-links a:hover {
+    text-decoration: underline;
+    color: #ffffff;
+}
+
+.site-footer .footer-bottom p {
+    margin: 0;
+    color: #999;
+}
+
+/* 5. RESPONSIVE DESIGN ADJUSTMENTS */
+@media (max-width: 850px) {
+    .site-footer .footer-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 40px 20px;
+        padding: 35px 24px;
+    }
+    .site-footer .footer-branding {
+        flex-direction: column;
+        gap: 20px;
+        padding: 25px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .site-footer .footer-container {
+        grid-template-columns: 1fr;
+        text-align: left;
+    }
+}
+/* =========================================================================
+   1. GLOBAL RESETS & STYLING ENGINE (NO IMPORTS)
+   ========================================================================= */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #eaeded; /* Standard subtle e-commerce light gray background */
+    color: #0f1111;
+    line-height: 1.4;
+}
+
+/* =========================================================================
+   SUPER FORCE GRID SYSTEM - EXACT HORIZONTAL REALIZATION MATCH
+   ========================================================================= */
+
+/* Core System resets to prevent side behaviors */
+* {
+    box-sizing: border-box  ;
+    margin: 0  ;
+    padding: 0  ;
+}
+
+body {
+    font-family: Arial, sans-serif  ;
+    background-color: #eaeded  ;
+    color: #0f1111  ;
+}
+
+/* MAIN CONTAINER LAYOUT RESET */
+.amazon-navbar {
+    background-color: #131921  ;
+    width: 100%  ;
+    display: block  ; /* Forces vertical block stack for Row 1 & Row 2 */
+    position: sticky  ;
+    top: 0  ;
+    z-index: 9999  ;
+}
+
+/* --- ROW 1: TOP BAR CRITICAL GRID MATRIX --- */
+.amazon-navbar .nav-top {
+    display: grid  ;
+    /* Strict columns: Logo, Delivery, Search (takes all rest space), Options */
+    grid-template-columns: auto auto 1fr auto  ;
+    align-items: center  ;
+    height: 60px  ;
+    padding: 0 14px  ;
+    gap: 14px  ;
+}
+
+/* 1. BRAND LOGO FIX */
+.amazon-navbar .nav-logo {
+    display: flex  ;
+    align-items: center  ;
+    height: 44px  ;
+    cursor: pointer  ;
+    border: 1px solid transparent  ;
+    padding: 0 8px  ;
+}
+.amazon-navbar .nav-logo:hover { border-color: #ffffff  ; }
+.amazon-navbar .logo-text img {
+    height: 26px  ; /* Restricts giant images from falling vertically */
+    width: auto  ;
+    display: block  ;
+}
+
+/* 2. DELIVERY MODULE POSITIONING */
+.amazon-navbar .nav-delivery {
+    display: flex  ;
+    flex-direction: column  ;
+    justify-content: center  ;
+    height: 44px  ;
+    cursor: pointer  ;
+    border: 1px solid transparent  ;
+    padding: 0 8px  ;
+}
+.amazon-navbar .nav-delivery:hover { border-color: #ffffff  ; }
+.amazon-navbar .del-to { color: #cccccc  ; font-size: 12px  ; line-height: 1.2  ; }
+.amazon-navbar .del-loc { color: #ffffff  ; font-size: 14px  ; font-weight: 700  ; line-height: 1.2  ; }
+
+/* 3. CENTER SEARCH CONTAINER FLEX ENGINE */
+.amazon-navbar .search-container {
+    display: flex  ;
+    flex-direction: row  ; /* Strictly aligns dropdown, text and button side-by-side */
+    align-items: center  ;
+    height: 40px  ;
+    background-color: #ffffff  ;
+    border-radius: 4px  ;
+    overflow: hidden  ;
+    border: 3px solid transparent  ;
+}
+.amazon-navbar .search-container:focus-within {
+    border-color: #f3a847  ;
+}
+
+.amazon-navbar .all-dropdown {
+    background-color: #f3f3f3  ;
+    color: #555555  ;
+    font-size: 12px  ;
+    padding: 0 12px  ;
+    height: 100%  ;
+    display: flex  ;
+    align-items: center  ;
+    gap: 5px  ;
+    border-right: 1px solid #cdcdcd  ;
+    cursor: pointer  ;
+    white-space: nowrap  ;
+}
+
+.amazon-navbar .search-input-wrapper {
+    display: flex  ;
+    flex-grow: 1  ;
+    align-items: center  ;
+    height: 100%  ;
+    position: relative  ;
+}
+
+.amazon-navbar .search-input {
+    width: 100%  ;
+    height: 100%  ;
+    border: none  ;
+    outline: none  ;
+    padding: 0 70px 0 10px  ; /* Protective pad shielding */
+    font-size: 15px  ;
+    color: #111111  ;
+}
+
+/* Floating Hardware Icons inside Right Input frame */
+.amazon-navbar .search-hardware-icons {
+    position: absolute  ;
+    right: 8px  ;
+    display: flex  ;
+    align-items: center  ;
+    gap: 4px  ;
+}
+
+.amazon-navbar .search-btn {
+    background-color: #febd69  ;
+    border: none  ;
+    width: 45px  ;
+    height: 100%  ;
+    cursor: pointer  ;
+    font-size: 16px  ;
+    display: flex  ;
+    align-items: center  ;
+    justify-content: center  ;
+}
+.amazon-navbar .search-btn:hover { background-color: #f3a847  ; }
+
+/* 4. RIGHT OPTIONS MANAGEMENT CONTROL */
+.amazon-navbar .nav-right-options {
+    display: flex  ;
+    flex-direction: row  ; /* Force items side-by-side */
+    align-items: center  ;
+    gap: 4px  ;
+}
+
+.amazon-navbar .nav-link {
+    display: flex  ;
+    flex-direction: column  ;
+    justify-content: center  ;
+    height: 44px  ;
+    padding: 0 8px  ;
+    border: 1px solid transparent  ;
+    color: #ffffff  ;
+    cursor: pointer  ;
+    text-decoration: none  ;
+}
+.amazon-navbar .nav-link:hover { border-color: #ffffff  ; }
+.amazon-navbar .line-1 { color: #cccccc  ; font-size: 12px  ; }
+.amazon-navbar .line-2 { font-size: 14px  ; font-weight: 700  ; white-space: nowrap  ; }
+
+/* 5. SHOPPING BASKET BADGE REALISM */
+.amazon-navbar .nav-cart-btn {
+    display: flex  ;
+    flex-direction: row  ;
+    align-items: flex-end  ;
+    height: 44px  ;
+    padding: 0 8px  ;
+    border: 1px solid transparent  ;
+    color: #ffffff  ;
+    cursor: pointer  ;
+    position: relative  ;
+}
+.amazon-navbar .nav-cart-btn:hover { border-color: #ffffff  ; }
+
+.amazon-navbar #cart-counter {
+    color: #f08804  ; /* Custom exact Amazon yellow amber counter code */
+    font-size: 16px  ;
+    font-weight: 800  ;
+    position: absolute  ;
+    top: 2px  ;
+    left: 12px  ;
+}
+.amazon-navbar .cart-text {
+    font-size: 14px  ;
+    font-weight: 700  ;
+    margin-left: 18px  ; /* Offsets text so digit doesn't overlap */
+}
+
+/* --- ROW 2: BOTTOM STRIP SUB LINKS NAV BAR --- */
+.amazon-navbar .nav-bottom-sub {
+    background-color: #232f3e  ;
+    height: 39px  ;
+    display: flex  ;
+    flex-direction: row  ;
+    align-items: center  ;
+    padding: 0 14px  ;
+    gap: 4px  ;
+}
+
+.amazon-navbar .nav-bottom-sub span {
+    color: #ffffff  ;
+    font-size: 14px  ;
+    font-weight: 500  ;
+    padding: 6px 8px  ;
+    border: 1px solid transparent  ;
+    border-radius: 2px  ;
+    cursor: pointer  ;
+    white-space: nowrap  ;
+}
+.amazon-navbar .nav-bottom-sub span:hover { border-color: #ffffff  ; }
+.amazon-navbar .menu-all { font-weight: 700 ; }
+/* =========================================================================
+   EXCLUSIVE LUXURY & HIGH-END MINIMALIST STORE DESIGN 
+   ========================================================================= */
+
+/* 1. CANVAS BOUNDARY RESET */
+.product-page-main {
+    max-width: 1400px  ;
+    margin: 40px auto  ;
+    padding: 30px 40px  ;
+    background-color: #ffffff  ;
+}
+
+.detail-page-container {
+    display: grid  ;
+    /* Clean 3-Column Luxury Split Grid Matrix */
+    grid-template-columns: 40% 36% 24%  ;
+    gap: 50px  ; /* Huge elegant space spacing to stop clashing */
+    align-items: start  ;
+}
+
+/* =========================================================================
+   2. LEFT PANEL ZONE: HIGH-END PRESENTATION BOXES
+   ========================================================================= */
+.detail-layout-left {
+    display: flex  ;
+    flex-direction: row  ;
+    gap: 24px  ;
+    position: sticky  ;
+    top: 90px  ;
+}
+
+/* Luxury Vertical Navigation Rails */
+.thumb-strip-gallery {
+    display: flex  ;
+    flex-direction: column  ;
+    gap: 12px  ;
+    min-width: 50px  ;
+}
+
+.thumb-box {
+    width: 48px  ;
+    height: 48px  ;
+    border: 1px solid #e2e8f0  ; /* Extremely light subtle slate border */
+    border-radius: 8px  ;
+    background-color: #f8fafc  ; /* Matte porcelain aesthetic background */
+    cursor: pointer  ;
+    display: flex  ;
+    align-items: center  ;
+    justify-content: center  ;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1)  ;
+}
+
+.thumb-box:hover, 
+.thumb-box.active {
+    border-color: #0f172a  ; /* Elite Midnight Slate highlight focus */
+    transform: scale(1.05)  ;
+}
+
+/* Hide broken image placeholders graphics gracefully */
+.thumb-box img, 
+.main-image-display-frame img {
+    max-width: 100%  ;
+    max-height: 100%  ;
+    object-fit: contain  ;
+  
+}
+
+/* Big Display Presentation Frame Window */
+.main-image-display-frame {
+    flex-grow: 1  ;
+    height: 460px  ;
+    background-color: #f8fafc  ; /* Matches luxury velvet texture tone */
+    border-radius: 12px  ;
+    display: flex  ;
+    align-items: center  ;
+    justify-content: center  ;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.02)  ;
+}
+
+/* =========================================================================
+   3. CENTER PANEL ZONE: PREMIUM TYPOGRAPHY & SELECTION CHIPS
+   ========================================================================= */
+.detail-layout-center {
+    display: flex  ;
+    flex-direction: column  ;
+}
+
+.product-full-headline {
+    font-size: 24px  ;
+    font-weight: 600  ;
+    letter-spacing: -0.4px  ;
+    line-height: 1.35  ;
+    color: #0f172a  ; /* Deep Onyx black tint */
+    margin-bottom: 8px  ;
+}
+
+.product-brand-link {
+    font-size: 13px  ;
+    color: #64748b  ; /* Modern muted graphite tone */
+    text-transform: uppercase  ;
+    letter-spacing: 1px  ;
+    font-weight: 600  ;
+    margin-bottom: 12px  ;
+}
+
+.rating-strip-stars {
+    color: #f59e0b  ; /* Warm amber gold index */
+    font-size: 13px  ;
+    margin-bottom: 16px  ;
+}
+
+.ui-divider {
+    border: 0  ;
+    height: 1px  ;
+    background-color: #f1f5f9  ; /* Ultra soft separation rows */
+    margin: 20px 0  ;
+}
+
+/* Luxury Pricing Elements */
+.pricing-card-strip {
+    display: flex  ;
+    align-items: baseline  ;
+    gap: 8px  ;
+    margin-bottom: 4px  ;
+}
+
+.badge-ratio {
+    color: #df2c5b  ; /* Elite Parisian Red Crimson */
+    font-size: 30px  ;
+    font-weight: 300  ;
+}
+
+.pkr-label {
+    font-size: 14px  ;
+    color: #0f172a  ;
+    font-weight: 700  ;
+}
+
+.price-val-huge {
+    font-size: 30px  ;
+    font-weight: 600  ;
+    color: #0f172a  ;
+}
+
+.typical-retail-strike {
+    font-size: 13px  ;
+    color: #94a3b8  ;
+    margin-bottom: 6px  ;
+}
+
+.import-tax-clause {
+    font-size: 13px  ;
+    color: #64748b  ;
+    margin-bottom: 24px  ;
+}
+
+/* Interactive Color Custom Blocks Frame */
+.variant-matrix-section {
+    margin-bottom: 20px  ;
+}
+
+.variant-matrix-section h4, 
+.size-specs-picker h4 {
+    font-size: 13px  ;
+    font-weight: 600  ;
+    text-transform: uppercase  ;
+    letter-spacing: 0.5px  ;
+    color: #334155  ;
+    margin-bottom: 10px  ;
+}
+
+.color-variants-grid {
+    display: flex  ;
+    gap: 12px  ;
+}
+
+.color-box-item {
+    width: 60px  ;
+    height: 44px  ;
+    border: 1px solid #e2e8f0  ;
+    border-radius: 8px  ;
+    background-color: #ffffff  ;
+    cursor: pointer  ;
+    display: flex  ;
+    align-items: center  ;
+    justify-content: center  ;
+    transition: all 0.15s ease  ;
+}
+
+.color-box-item.active, 
+.color-box-item:hover {
+    border-color: #0f172a  ;
+    background-color: #f8fafc  ;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08)  ;
+}
+
+/* Sleek Minimal Size Node Chips Layouts */
+.chips-flex-row {
+    display: flex  ;
+    gap: 8px  ;
+    flex-wrap: wrap  ;
+}
+
+.size-chip-node {
+    padding: 8px 18px  ;
+    border: 1px solid #e2e8f0  ;
+    border-radius: 8px  ;
+    font-size: 13px  ;
+    font-weight: 500  ;
+    background-color: #ffffff  ;
+    color: #334155  ;
+    cursor: pointer  ;
+    transition: all 0.15s ease  ;
+}
+
+.size-chip-node:hover {
+    background-color: #f8fafc  ;
+    border-color: #cbd5e1  ;
+}
+
+.size-chip-node.active {
+    border-color: #0f172a  ;
+    background-color: #0f172a  ; /* High contrast clean minimalist switch */
+    color: #ffffff  ;
+    font-weight: 600  ;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.15)  ;
+}
+
+/* =========================================================================
+   REAL AMAZON CORE DETAIL VIEW CONTAINER & BODY ADJUSTMENTS
+   ========================================================================= */
+body {
+    background-color: #FFFFFF !important; /* Details page white clean background */
+    color: #0F1111;
+    font-family: "Amazon Ember", Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.full-product-page-view {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #FFFFFF;
+}
+
+/* Back to Results Navigation Link Style */
+.back-to-home-btn {
+    background: none;
+    border: none;
+    color: #007185;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 5px 0;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.back-to-home-btn:hover {
+    color: #C45500;
+    text-decoration: underline;
+}
+
+/* =========================================================================
+   STANDARD AMAZON 3-COLUMN STRUCTURE (IMAGE | METADATA | BUYBOX)
+   ========================================================================= */
+.detail-page-container {
+    display: grid;
+    grid-template-columns: 44% 34% 22%; /* Amazon exact layout aspect weights ratio */
+    gap: 30px;
+    align-items: start;
+    margin-bottom: 40px;
+}
+
+/* --- COLUMN 1: LEFT HAND IMAGES MATRIX VIEWER --- */
+.detail-layout-left {
+    display: flex;
+    gap: 15px;
+    position: sticky;
+    top: 20px;
+}
+
+.thumb-strip-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.thumb-box {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #D5D9D9;
+    border-radius: 4px;
+    padding: 3px;
+    cursor: pointer;
+    background-color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.thumb-box:hover, .thumb-box.active {
+    border-color: #E47911;
+    box-shadow: 0 0 3px rgba(228,121,17,0.5);
+}
+
+.thumb-box-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.main-image-display-frame {
+    flex-grow: 1;
+    height: 450px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #FFFFFF;
+}
+
+.main-image-display-frame img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+/* --- COLUMN 2: CENTER BLOCK PRODUCT TYPOGRAPHY & SPECS --- */
+.product-full-headline {
+    font-size: 21px;
+    font-weight: 500;
+    line-height: 1.3;
+    color: #0F1111;
+    margin: 0 0 5px 0;
+}
+
+.rating-strip-stars {
+    font-size: 13px;
+    color: #007185;
+    margin-bottom: 10px;
+}
+
+.ui-divider {
+    border: 0;
+    border-top: 1px solid #E7E7E7;
+    margin: 10px 0;
+}
+
+/* Price Frame Structuring */
+.pricing-card-strip {
+    margin-top: 5px;
+}
+
+.price-val-huge {
+    font-size: 26px;
+    color: #B12704; /* Crimson badge prices */
+    font-weight: 400;
+}
+
+.typical-retail-strike {
+    font-size: 13px;
+    color: #565959;
+    margin-top: 4px;
+}
+
+.import-tax-clause {
+    font-size: 12px;
+    color: #565959;
+    margin-top: 2px;
+}
+
+/* Variant Choice Blocks */
+.variant-matrix-section h4, .size-specs-picker h4 {
+    font-size: 13px;
+    font-weight: 700;
+    color: #0F1111;
+    margin: 0 0 8px 0;
+}
+
+.color-variants-grid {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.color-box-item {
+    width: 36px;
+    height: 36px;
+    border: 1px solid #D5D9D9;
+    border-radius: 4px;
+    padding: 2px;
+    cursor: pointer;
+    background: #FFFFFF;
+}
+
+.color-box-item:hover, .color-box-item.active {
+    border-color: #FF9900;
+    outline: 1px solid #FF9900;
+}
+
+.color-box-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 2px;
+}
+
+.chips-flex-row {
+    display: flex;
+    gap: 6px;
+}
+
+.size-chip-node {
+    border: 1px solid #D5D9D9;
+    padding: 5px 12px;
+    font-size: 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #F7F8F8;
+}
+
+.size-chip-node:hover {
+    background-color: #EDF0F0;
+    border-color: #A2A6A6;
+}
+
+.size-chip-node.active {
+    border-color: #E47911;
+    background-color: #FEF8F2;
+    font-weight: 700;
+    outline: 1px solid #E47911;
+}
+
+/* --- COLUMN 3: RIGHT CHECKOUT UTILITY CARD (BUYBOX) --- */
+.detail-layout-right-buybox {
+    border: 1px solid #D5D9D9;
+    border-radius: 8px;
+    padding: 14px;
+    background-color: #FFFFFF;
+    position: sticky;
+    top: 20px;
+}
+
+.buybox-price-tag {
+    font-size: 22px;
+    color: #B12704;
+    margin-bottom: 8px;
+}
+
+.delivery-eta-msg {
+    font-size: 12px;
+    line-height: 1.4;
+    color: #0F1111;
+    margin: 0 0 10px 0;
+}
+
+.stock-status-green {
+    color: #007600;
+    font-size: 17px;
+    font-weight: 500;
+    margin: 0 0 12px 0;
+}
+
+.qty-selector-wrapper {
+    margin-bottom: 15px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.qty-selector-wrapper select {
+    background-color: #F0F2F2;
+    border: 1px solid #D5D9D9;
+    border-radius: 8px;
+    padding: 4px 10px;
+    font-size: 13px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(15,17,17,0.1);
+}
+
+.buybox-actions-flex {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Amazon Pill Shape Standard Actions Styling */
+.action-btn-gold {
+    background-color: #FFD814;
+    border: 1px solid #FCD200;
+    color: #0F1111;
+    padding: 8px;
+    border-radius: 20px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.1s;
+}
+
+.action-btn-gold:hover {
+    background-color: #F7CA00;
+}
+
+.action-btn-orange {
+    background-color: #FFA41C;
+    border: 1px solid #FF9900;
+    color: #0F1111;
+    padding: 8px;
+    border-radius: 20px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.1s;
+}
+
+.action-btn-orange:hover {
+    background-color: #FA8900;
+}
+
+/* =========================================================================
+   BOTTOM HORIZONTAL RECOMMENDATIONS SLIDER LOOP
+   ========================================================================= */
+.recommendations-container-section {
+    margin-top: 40px;
+    border-top: 1px solid #E7E7E7;
+    padding-top: 20px;
+}
+
+.recommendations-container-section h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #CC6600;
+    margin: 0 0 12px 0;
+}
+
+.recommended-products-slider-track {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 15px;
+}
+
+.recommended-products-slider-track::-webkit-scrollbar {
+    height: 7px;
+}
+
+.recommended-products-slider-track::-webkit-scrollbar-thumb {
+    background: #CCCCCC;
+    border-radius: 4px;
+}
+
+.recommended-mini-card {
+    flex: 0 0 160px;
+    background: #FFFFFF;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.mini-card-img-frame {
+    height: 130px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+}
+
+.mini-card-img-frame img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.mini-card-title {
+    font-size: 12px;
+    color: #007185;
+    line-height: 1.3;
+    height: 32px;
+    overflow: hidden;
+    margin-bottom: 3px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.mini-card-title:hover {
+    color: #C45500;
+    text-decoration: underline;
+}
+
+.mini-card-rating {
+    color: #DE7921;
+    font-size: 11px;
+    margin-bottom: 3px;
+}
+
+.mini-card-price {
+    font-size: 13px;
+    font-weight: 700;
+    color: #B12704;
+}
+.full-product-page-view {
+    display: none !important; /* Yeh line page load hote hi is section ko chhipa degi */
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #FFFFFF;
+}
+.img{
+    width: 1900px;
+    height: 300px;
+}
+/* =========================================================================
+   HANIA.PK SLIDING SIDEBAR MODULE
+   ========================================================================= */
+.nav-drawer-panel {
+    height: 100%;
+    width: 0; 
+    position: fixed;
+    z-index: 10000; 
+    top: 0;
+    left: 0;
+    background-color: #ffffff;
+    overflow-x: hidden;
+    transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.15);
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* User Profile Header Blue Custom Accent Color */
+.drawer-user-header {
+    background-color: #1e293b; /* Premium slate color jo aapke main variables se match kare */
+    color: #ffffff;
+    padding: 18px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+/* Scroll Engine */
+.drawer-scroll-body {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 15px 0;
+}
+
+.drawer-group-section h4 {
+    font-size: 12px;
+    font-weight: 700;
+    color: #64748b; /* Muted tone */
+    padding: 10px 24px 4px 24px;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.drawer-group-section a {
+    padding: 11px 24px;
+    text-decoration: none;
+    font-size: 14px;
+    color: #1e293b;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.15s ease;
+}
+
+.drawer-group-section a:hover {
+    background-color: #f1f5f9; /* Soft highlight gray */
+    color: #2563eb; /* Primary theme color change on hover */
+}
+
+.drawer-group-section a i {
+    color: #94a3b8;
+    font-size: 10px;
+}
+
+.drawer-divider {
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+    margin: 12px 0;
+}
+
+/* Backdrop Shadow System */
+/* Purane .drawer-mask-overlay ko isse replace karein */
+.drawer-mask-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    /* Halka transparent dark shade bina kisi blur ke */
+    background-color: rgba(0, 0, 0, 0.4); 
+    /* Agar niche wali line pehle se mojood hai, toh ise bilkul remove kar dein */
+    backdrop-filter: none !important; 
+    z-index: 9999;
+}
+
+.drawer-close-trigger-x {
+    position: absolute;
+    left: 320px; /* Aligned according to layout panel bounds */
+    top: 12px;
+    color: #ffffff;
+    font-size: 32px;
+    cursor: pointer;
+}
+/* =========================================================================
+   BOTTOM HORIZONTAL RECOMMENDATIONS SLIDER LOOP - FIXED FOR WRAPPING
+   ========================================================================= */
+.recommendations-container-section {
+    margin-top: 40px;
+    border-top: 1px solid #E7E7E7;
+    padding-top: 20px;
+    clear: both; /* Prevents overlap collapses */
+}
+
+.recommendations-container-section h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #CC6600;
+    margin: 0 0 12px 0;
+}
+
+/* Horizontal Scroll Khatam karke Grid wrapping layout apply kiya hai */
+.recommended-products-slider-track {
+    display: flex;
+    flex-wrap: wrap; /* Overflow hone par automatic niche dusra column banaye ga */
+    gap: 16px;
+    padding-bottom: 15px;
+}
+
+.recommended-mini-card {
+    flex: 0 0 calc(25% - 12px); /* Ek line mein balanced 4 columns banenge */
+    min-width: 160px;
+    background: #FFFFFF;
+    padding: 12px;
+    border: 1px solid #E7E7E7;
+    border-radius: 4px;
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: transform 0.2s ease;
+}
+
+.recommended-mini-card:hover {
+    transform: translateY(-2px);
+    border-color: #C45500;
+}
+
+/* Responsive adjustment agar screen choti ho to rows khud adjust hon */
+@media (max-width: 768px) {
+    .recommended-mini-card {
+        flex: 0 0 calc(50% - 8px); /* Tablets pe ek line mein 2 items */
+    }
+}
+@media (max-width: 480px) {
+    .recommended-mini-card {
+        flex: 0 0 100%; /* Mobile screens par pure wide blocks */
+    }
+}
+/* =========================================================================
+   UPDATED HORIZONTAL RECOMMENDATIONS SLIDER LOOP WITH SLIDER BUTTONS
+   ========================================================================= */
+.recommendations-container-section {
+    margin-top: 40px;
+    border-top: 1px solid #E7E7E7;
+    padding-top: 20px;
+    clear: both;
+    position: relative; /* Buttons ko absolute position dene ke liye */
+}
+
+.recommendations-container-section h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #CC6600;
+    margin: 0 0 12px 0;
+}
+
+/* Slider Outer Wrapper Grid Control */
+.slider-wrapper-relative {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+/* Track container jisme cards bina wrap hue ek line mein chalenge */
+.recommended-products-slider-track {
+    display: flex;
+    flex-wrap: nowrap; /* Wrap band taake sab items ek hi line mein rahein */
+    gap: 16px;
+    overflow-x: auto; /* Buttons ke ilawa manual swipe bhi kam karega */
+    scroll-behavior: smooth; /* Smooth moving effect */
+    padding: 10px 5px;
+    width: 100%;
+}
+
+/* Hide default horizontal scrollbar mechanism for clean visual design */
+.recommended-products-slider-track::-webkit-scrollbar {
+    display: none;
+}
+
+/* Updated Premium Mini Product Card View Design */
+.recommended-mini-card {
+    flex: 0 0 220px; /* Card ki responsive static width */
+    background: #FFFFFF;
+    padding: 14px;
+    border: 1px solid #E7E7E7;
+    border-radius: 8px;
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.recommended-mini-card:hover {
+    transform: translateY(-3px);
+    border-color: #C45500;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.mini-card-img-frame {
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    background: #f9f9f9;
+    border-radius: 6px;
+}
+
+.mini-card-img-frame img {
+    max-height: 85%;
+    max-width: 85%;
+    object-fit: contain;
+}
+
+/* Slide Control Action Buttons Layout Frame (< and >) */
+.slider-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid #cbd5e1;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.slider-nav-btn:hover {
+    background-color: #ffffff;
+    border-color: #a2a6a6;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.slider-nav-btn.prev-btn {
+    left: -15px; /* Box se thoda baahir Amazon style mein */
+}
+
+.slider-nav-btn.next-btn {
+    right: -15px;
+}
+/* --- SIGN IN HOVER DROPDOWN ARCHITECTURE --- */
+.signin-hover-container {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content Frame (Hidden by Default) */
+.signin-dropdown-box {
+    display: none;
+    position: absolute;
+    top: 42px; /* Aligns vertically right underneath navbar line link */
+    right: 0;
+    background-color: #ffffff;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 16px;
+    border-radius: 4px;
+    z-index: 10001;
+    text-align: center;
+    border: 1px solid #cbd5e1;
+}
+
+/* Micro Triangle Arrow Pointer pointing upwards */
+.signin-dropdown-box::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    right: 20px;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid #ffffff;
+}
+
+/* Triggers visible frame block on hover matrix interaction */
+.signin-hover-container:hover .signin-dropdown-box {
+    display: block;
+}
+
+.dropdown-new-cust {
+    font-size: 11px;
+    color: #111111;
+    margin-top: 10px;
+}
+
+.dropdown-new-cust a {
+    color: #007185;
+    text-decoration: none;
+}
+.dropdown-new-cust a:hover {
+    text-decoration: underline;
+    color: #c45500;
+}
+/* HERO SLIDER */
+.hero-slider {
+    position: relative;
+    width: 100%;
+    background: #0f172a;
+    min-height: 450px;
+    overflow: hidden;
+}
+
+.slide {
+    display: none;
+    padding: 40px 60px;
+}
+
+.slide.active {
+    display: block;
+}
+
+.slide-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: center;
+}
+
+.slide-text {
+    color: white;
+}
+
+.slide-text span {
+    background: #EF4444;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    display: inline-block;
+}
+
+.slide-text h1 {
+    font-size: 48px;
+    margin: 16px 0 8px;
+}
+
+.slide-text p {
+    color: #94a3b8;
+    margin-bottom: 20px;
+}
+
+.slide-text button {
+    background: #6C3CE1;
+    color: white;
+    padding: 12px 32px;
+    border: none;
+    border-radius: 50px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.slide-image img {
+    width: 100%;
+    max-height: 350px;
+    object-fit: contain;
+}
+
+/* بٹن */
+.prev-btn, .next-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.2);
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.prev-btn { left: 20px; }
+.next-btn { right: 20px; }
+
+/* ڈاٹس */
+.slider-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    z-index: 10;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    cursor: pointer;
+}
+
+.dot.active {
+    background: #6C3CE1;
+}
+
+/* موبائل کے لیے */
+@media (max-width: 768px) {
+    .slide-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    .slide-text h1 {
+        font-size: 32px;
+    }
+    .slide {
+        padding: 30px 20px;
+    }
+}
+/* =========================================================================
+   👑 FIXED SYSTEM PRODUCTION DASHBOARD DESIGN SYSTEM
+   ========================================================================= */
+.dashboard-layout-view {
+    display: none;
+    max-width: 1300px;
+    margin: 40px auto;
+    padding: 0 24px;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.dashboard-wrapper-card {
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+    padding: 32px;
+}
+
+.dashboard-header-panel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 20px;
+    margin-bottom: 32px;
+}
+
+.dashboard-main-title {
+    font-size: 24px;
+    color: #0f172a;
+    font-weight: 700;
+    margin: 0;
+}
+
+.dashboard-close-action-btn {
+    background: #2563eb;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.dashboard-close-action-btn:hover { background: #1d4ed8; }
+
+.dashboard-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+.dashboard-stat-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 24px;
+    border-radius: 12px;
+}
+
+.stat-box-label {
+    display: block;
+    font-size: 12px;
+    color: #64748b;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.stat-box-number {
+    font-size: 32px;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 8px 0 0 0;
+}
+
+.dashboard-split-columns {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 32px;
+    align-items: start;
+}
+
+.dashboard-table-frame {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.dashboard-data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-header-row { background: #f8fafc; border-bottom: 1px solid #e2e8f0; }
+.table-th-cell { padding: 16px; font-size: 13px; font-weight: 600; color: #475569; text-align: left; }
+.dashboard-row-item { border-bottom: 1px solid #f1f5f9; }
+.dashboard-td-cell { padding: 16px; font-size: 14px; color: #334155; }
+.dashboard-title-td { max-width: 250px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dashboard-price-td { font-weight: 600; color: #0f172a; }
+
+.dashboard-delete-btn {
+    background: #ef4444;
+    color: #ffffff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.dashboard-delete-btn:hover { background: #dc2626; }
+
+.dashboard-form-frame {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    padding: 24px;
+    border-radius: 12px;
+}
+
+.dashboard-form-title { font-size: 16px; font-weight: 700; margin-bottom: 20px; }
+.dashboard-crud-form { display: flex; flex-direction: column; gap: 16px; }
+.form-input-group { display: flex; flex-direction: column; }
+.form-field-label { font-size: 13px; color: #475569; margin-bottom: 6px; font-weight: 500; }
+
+.form-text-input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    outline: none;
+}
+.form-text-input:focus { border-color: #2563eb; }
+.form-select-node { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; background: #fff; }
+
+.form-submit-green-btn {
+    background: #10b981;
+    color: #ffffff;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.form-submit-green-btn:hover { background: #059669; }
+
+.drawer-dashboard-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 24px;
+    text-decoration: none;
+    color: #1e293b;
+}
+.drawer-dashboard-link:hover { background-color: #f1f5f9; color: #2563eb; }
+.center-text { text-align: center; }
