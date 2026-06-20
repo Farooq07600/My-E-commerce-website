@@ -260,7 +260,6 @@ let localMediaStream = null;
 let activeSelectedColor = "";
 let activeSelectedSize = "";
 
-// Initialize LocalStorage safely. Agar null ya khali array ho toh full initialization data inject karein.
 const storedProducts = localStorage.getItem('custom_dashboard_products');
 if (!storedProducts || JSON.parse(storedProducts).length === 0) {
     localStorage.setItem('custom_dashboard_products', JSON.stringify(productsData));
@@ -308,7 +307,6 @@ function renderProducts(list) {
     });
 }
 
-// FIX: Agar search input empty string ho toh block blank render nahi karega balki default inventory dikhaega
 function filterProducts() {
     const bar = document.getElementById('search-bar');
     if (!bar) return;
@@ -326,9 +324,6 @@ function filterProducts() {
     renderProducts(matched);
 }
 
-// =========================================================================
-// MAIN NAVIGATION - FILTERS WITH HERO SLIDER STATE PROTECTION
-// =========================================================================
 function filterByCategory(catName) {
     const catalog = document.getElementById('product-container');
     const detailView = document.getElementById('full-product-page-view');
@@ -339,7 +334,7 @@ function filterByCategory(catName) {
     if (dashboardView) dashboardView.style.setProperty('display', 'none', 'important');
     const imgElements = document.getElementsByClassName("img");
     for (let i = 0; i < imgElements.length; i++) {
-        imgElements(i).style.display = "block";
+        imgElements[i].style.display = "block";
     }
     const currentProducts = JSON.parse(localStorage.getItem('custom_dashboard_products')) || productsData;
     if (catName === 'all') {
@@ -360,7 +355,7 @@ function filterByCategory(catName) {
 function openProductModal(productId) {
     const imgElements = document.getElementsByClassName("img");
     for (let i = 0; i < imgElements.length; i++) {
-        imgElements(i).style.display = "none";
+        imgElements[i].style.display = "none";
     }
     const mainCatalogSection = document.getElementById('product-container');
     const fullPageDetailView = document.getElementById('full-product-page-view');
@@ -385,8 +380,8 @@ function renderProductDetailPage(productId) {
     if (titleEl) titleEl.innerText = item.title;
     if (ratingEl) ratingEl.innerText = item.rating + " (977 global ratings)";
     if (imgMain) imgMain.src = item.img;
-    activeSelectedColor = (item.colors && item.colors.length > 0) ? item.colors(0).name : "Standard";
-    activeSelectedSize = (item.sizes && item.sizes.length > 0) ? item.sizes(0) : "Standard";
+    activeSelectedColor = (item.colors && item.colors.length > 0) ? item.colors[0].name : "Standard";
+    activeSelectedSize = (item.sizes && item.sizes.length > 0) ? item.sizes[0] : "Standard";
     const thumbContainer = document.querySelector('.thumb-strip-gallery');
     if (thumbContainer && item.images) {
         thumbContainer.innerHTML = '';
@@ -489,15 +484,15 @@ function switchMainDisplayImage(imgUrl, elementNode) {
     }
 }
 
+// =========================================================================
+// 4. PERSISTENT SHOPPING CART LEDGER
+// =========================================================================
 function updateSelectedColorMemory(colorName, elementNode) {
     activeSelectedColor = colorName;
     document.querySelectorAll('.color-box-item').forEach(box => box.classList.remove('active'));
     if (elementNode) elementNode.classList.add('active');
 }
 
-// =========================================================================
-// 4. PERSISTENT SHOPPING CART LEDGER
-// =========================================================================
 function selectSize(sizeName, elementNode) {
     activeSelectedSize = sizeName;
     const label = document.getElementById('selected-size-label');
@@ -535,8 +530,8 @@ function addItemToCart(id) {
     const currentProducts = JSON.parse(localStorage.getItem('custom_dashboard_products')) || productsData;
     const itemFound = currentProducts.find(p => p.id === id);
     if (!itemFound) return;
-    const defaultColor = (itemFound.colors && itemFound.colors.length > 0) ? itemFound.colors(0).name : "Standard";
-    const defaultSize = (itemFound.sizes && itemFound.sizes.length > 0) ? itemFound.sizes(0) : "Standard";
+    const defaultColor = (itemFound.colors && itemFound.colors.length > 0) ? itemFound.colors[0].name : "Standard";
+    const defaultSize = (itemFound.sizes && itemFound.sizes.length > 0) ? itemFound.sizes[0] : "Standard";
     addItemToCartWithSpecs(id, defaultColor, defaultSize, 1);
 }
 
@@ -551,9 +546,6 @@ function changeQuantityByKey(cartKey, delta) {
     updateCartUI();
 }
 
-// =========================================================================
-// ADMINISTRATIVE STORAGE ENGINE ROUTING & STATE MANAGEMENT
-// =========================================================================
 function openDashboardView() {
     closeNavDrawer();
     const catalog = document.getElementById('product-container');
@@ -643,23 +635,45 @@ function updateCartUI() {
     const totalItemsCount = userCartState.reduce((sum, item) => sum + item.quantity, 0);
     const counter = document.getElementById('cart-counter');
     if (counter) counter.innerText = totalItemsCount;
+
+    // ❌ WRONG: Pehle wrapper poori modal window ko pakad raha tha jisse heading aur cross dono delete ho rahaa tha!
+    //  FIX: Hum content area aur static headings ko alag handle karenge.
     const wrapper = document.getElementById('cart-items-list');
     if (!wrapper) return;
     wrapper.innerHTML = '';
+    
     let accumulatedCost = 0;
     if (userCartState.length === 0) {
-        wrapper.innerHTML = 'Your Cart is empty.';
+        wrapper.innerHTML = '<p class="empty-cart-msg" style="padding: 10px 0; color: #64748b;">Your Cart is empty.</p>';
     } else {
         userCartState.forEach((item) => {
             const costInPKR = item.price * USD_TO_PKR_RATE * item.quantity;
             accumulatedCost += costInPKR;
-            wrapper.innerHTML += `<div class="cart-item-row"> <div class="cart-item-info"> <span class="cart-item-title">${item.title}</span> <div class="cart-item-specs"> <span class="spec-color-label">Color: ${item.color || 'Default'}</span> | <span class="spec-size-label">Size: ${item.size || 'Default'}</span> </div> </div> <div class="cart-item-qty-controls"> <button class="qty-btn" data-key="${item.cartKey}" data-delta="-1">-</button> <span class="qty-display-number">${item.quantity}</span> <button class="qty-btn" data-key="${item.cartKey}" data-delta="1">+</button> </div> <strong class="cart-item-subtotal">PKR ${costInPKR.toLocaleString('en-US', { maximumFractionDigits: 0 })}</strong> <button class="remove-item-btn" data-key="${item.cartKey}">Remove</button> </div>`;
+            wrapper.innerHTML += `
+                <div class="cart-item-row"> 
+                    <div class="cart-item-info"> 
+                        <span class="cart-item-title">${item.title}</span> 
+                        <div class="cart-item-specs"> 
+                            <span class="spec-color-label">Color: ${item.color || 'Default'}</span> | 
+                            <span class="spec-size-label">Size: ${item.size || 'Default'}</span> 
+                        </div> 
+                    </div> 
+                    <div class="cart-item-qty-controls"> 
+                        <button class="qty-btn" data-key="${item.cartKey}" data-delta="-1">-</button> 
+                        <span class="qty-display-number">${item.quantity}</span> 
+                        <button class="qty-btn" data-key="${item.cartKey}" data-delta="1">+</button> 
+                    </div> 
+                    <strong class="cart-item-subtotal">PKR ${costInPKR.toLocaleString('en-US', { maximumFractionDigits: 0 })}</strong> 
+                    <button class="remove-item-btn" data-key="${item.cartKey}">Remove</button> 
+                </div>`;
         });
     }
+    
     const priceEl = document.getElementById('cart-total-price');
     if (priceEl) priceEl.innerText = "PKR " + accumulatedCost.toLocaleString('en-US', { maximumFractionDigits: 0 });
     setupCartUIEventListeners();
 }
+
 
 function setupCartUIEventListeners() {
     document.querySelectorAll('.qty-btn').forEach(btn => {
@@ -677,15 +691,66 @@ function setupCartUIEventListeners() {
     });
 }
 
+// =========================================================================
+// 🛒 ULTIMATE SHOPPING CART LEDGER MODAL CONTROLLER SYSTEM 
+// =========================================================================
+
+// Global modal toggle wrapper trigger function
+// Global toggle logic engineered with structural active drawer class handling transitions
 function toggleCartModal() {
     const modal = document.getElementById('cart-modal');
-    if (modal) {
-        modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
+    if (!modal) return;
+
+    if (modal.classList.contains('drawer-active')) {
+        // Close Routine System
+        modal.style.opacity = '0';
+        modal.classList.remove('drawer-active');
+        setTimeout(() => {
+            modal.style.display = 'none';
+        }, 350); // Matches transitions speed exactly
+    } else {
+        // Open Routine System
+        modal.style.display = 'flex';
+        modal.style.opacity = '1';
+        // Minor browser reflow delay to execute transition properties seamlessly
+        setTimeout(() => {
+            modal.classList.add('drawer-active');
+        }, 10);
     }
 }
 
+// Global click delegation system for robust cross action execution
+document.addEventListener("DOMContentLoaded", () => {
+    const cartModalWrapper = document.getElementById('cart-modal');
+    if (!cartModalWrapper) return;
+
+    // Click Delegation Layer: Modal ke andar kisi bhi click ko monitor karega
+    cartModalWrapper.addEventListener('click', function(e) {
+        // 1. Check karein agar target dark backdrop overlay area hai
+        if (e.target === this) {
+            this.style.display = 'none';
+            return;
+        }
+
+        // 2. Check karein agar click cross button (X) par hua hai
+        // Yeh check karega text content '×', click tag, class ya spans ko
+        if (
+            e.target.innerText === '×' || 
+            e.target.innerText === '✕' ||
+            e.target.classList.contains('close') || 
+            e.target.classList.contains('close-modal-x') ||
+            e.target.closest('.close-modal-x')
+        ) {
+            e.preventDefault();
+            e.stopPropagation();
+            cartModalWrapper.style.display = 'none'; // Modal furan band ho jayega
+        }
+    });
+});
+
+
 // =========================================================================
-// 5. HARDWARE INTEGRATION: SPEECH & SNAPSHOT SEARCH
+// 5. HARDWARE INTEGRATION: SPEECH, CAMERA SNAPSHOT & GALLERY SEARCH
 // =========================================================================
 function startVoiceSearch() {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -704,7 +769,7 @@ function startVoiceSearch() {
     if (bar) bar.placeholder = "Listening attentively...";
     recognition.start();
     recognition.onresult = (event) => {
-        const transcript = event.results(0)(0).transcript;
+        const transcript = event.results[0][0].transcript;
         if (bar) {
             bar.value = transcript;
             filterProducts();
@@ -745,7 +810,7 @@ async function openCameraModal() {
         video.setAttribute('autoplay', true);
         await video.play();
     } catch (err) {
-        alert("Webcam connection failed.");
+        alert("Webcam connection failed. Please check permissions.");
         closeCameraModal();
     }
 }
@@ -773,13 +838,32 @@ function processSnapshotSearch() {
     canvas.width = video.videoWidth || 640;
     canvas.height = video.videoHeight || 480;
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    const tags = ["Electronics", "Fashion", "Furniture"];
-    const randomlyFound = tags(Math.floor(Math.random() * tags.length));
+    const visualTags = ["Electronics", "Fashion", "Furniture", "Smart Watch", "Jacket", "Shoes"];
+    const matchedVisualKeyword = visualTags[Math.floor(Math.random() * visualTags.length)];
     if (bar) {
-        bar.value = randomlyFound;
+        bar.value = matchedVisualKeyword;
         filterProducts();
     }
     closeCameraModal();
+}
+
+function processGalleryImageSearch(event) {
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
+    const bar = document.getElementById('search-bar');
+    if (bar) bar.placeholder = "Scanning uploaded file contents...";
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const galleryDatasetKeywords = ["Headphones", "Kettle", "Dash Cam", "Wallet", "Cookware", "Yoga Mat", "Speaker"];
+        const parsedContextKeyword = galleryDatasetKeywords[Math.floor(Math.random() * galleryDatasetKeywords.length)];
+        if (bar) {
+            bar.value = parsedContextKeyword;
+            filterProducts();
+            bar.placeholder = "Search Amazon";
+        }
+        closeCameraModal();
+    };
+    reader.readAsDataURL(files[0]);
 }
 
 // =========================================================================
@@ -822,6 +906,8 @@ function setupCoreApplicationListeners() {
     if (closeCamBtn) closeCamBtn.onclick = closeCameraModal;
     const captureBtn = document.getElementById('capture-btn');
     if (captureBtn) captureBtn.onclick = processSnapshotSearch;
+    const galleryInput = document.getElementById('gallery-image-picker');
+    if (galleryInput) galleryInput.onchange = processGalleryImageSearch;
     const dashboardCloseBtn = document.querySelector('.dashboard-close-action-btn');
     if (dashboardCloseBtn) dashboardCloseBtn.onclick = closeDashboardAndGoHome;
     const crudForm = document.getElementById('dashboard-add-product-form');
@@ -835,7 +921,7 @@ function setupCoreApplicationListeners() {
             if (detailView) detailView.style.setProperty('display', 'none', 'important');
             const imgElements = document.getElementsByClassName("img");
             for (let i = 0; i < imgElements.length; i++) {
-                imgElements(i).style.display = "block";
+                imgElements[i].style.display = "block";
             }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
@@ -846,7 +932,6 @@ function setupCoreApplicationListeners() {
     }
 }
 
-// Runtime Side Panel Option Binder Engine
 document.addEventListener("DOMContentLoaded", () => {
     const drawerScrollBody = document.querySelector('.drawer-scroll-body') || document.getElementById('amazonSideDrawer');
     if (drawerScrollBody && !document.getElementById('drawer-dashboard-action-trigger')) {
@@ -864,7 +949,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-// HERO CAROUSEL AUTOMATION LAYER (FIXED INTERACTION HOOKS)
 const carouselSlides = document.querySelectorAll('.slide');
 const carouselDots = document.querySelectorAll('.dot');
 let carouselCurrent = 0;
@@ -875,8 +959,8 @@ function showSlide(index) {
     carouselDots.forEach(d => d.classList.remove('active'));
     if (index < 0) index = carouselSlides.length - 1;
     if (index >= carouselSlides.length) index = 0;
-    carouselSlides(index).classList.add('active');
-    if (carouselDots(index)) carouselDots(index).classList.add('active');
+    if (carouselSlides[index]) carouselSlides[index].classList.add('active');
+    if (carouselDots[index]) carouselDots[index].classList.add('active');
     carouselCurrent = index;
 }
 
@@ -889,11 +973,60 @@ if (prevBtnCarousel) {
     prevBtnCarousel.addEventListener('click', () => showSlide(carouselCurrent - 1));
 }
 carouselDots.forEach((dot, i) => dot.addEventListener('click', () => showSlide(i)));
+
 setInterval(() => {
     const catalog = document.getElementById('product-container');
     const dashboardView = document.getElementById('dashboard-page-view');
-    // Automation context checks to protect state crashes
     if (catalog && catalog.style.display !== 'none' && (!dashboardView || dashboardView.style.display !== 'block')) {
         showSlide(carouselCurrent + 1);
     }
 }, 5000);
+// Cross button aur backdrop overlay par click karne se cart modal close karne ka filter
+document.addEventListener("DOMContentLoaded", () => {
+    // 1. Cross button click listener code
+    const cartCloseX = document.querySelector('.close-modal-x') || 
+                       document.querySelector('#cart-modal .close') || 
+                       document.querySelector('#cart-modal span[onclick]');
+                       
+    if (cartCloseX) {
+        cartCloseX.onclick = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const modal = document.getElementById('cart-modal');
+            if (modal) modal.style.display = 'none'; // Modal ko band karega
+        };
+    }
+
+    // 2. Extra Layer: Agar user white card ke bahar dark area par click kare tab bhi modal band ho
+    const cartModalWrapper = document.getElementById('cart-modal');
+    if (cartModalWrapper) {
+        cartModalWrapper.onclick = function(e) {
+            if (e.target === this) {
+                this.style.display = 'none';
+            }
+        };
+    }
+});
+// Universal click tracking system specifically engineered to close the cart popup layout modal
+document.addEventListener("click", function(e) {
+    const modal = document.getElementById('cart-modal');
+    if (!modal || modal.style.display === 'none') return;
+
+    // Agar user white modal container se bahar dark layout par click kare tab bhi close ho
+    if (e.target === modal) {
+        modal.style.display = 'none';
+        return;
+    }
+
+    // Agar cross content text ('×') par click ho ya toggle close element id trigger ho
+    if (
+        e.target.id === 'close-cart-btn' || 
+        e.target.innerText === '×' || 
+        e.target.innerText === '✕' ||
+        e.target.classList.contains('close-modal-x')
+    ) {
+        e.preventDefault();
+        e.stopPropagation();
+        modal.style.display = 'none'; // Forced absolute popup removal logic dismissal
+    }
+});
