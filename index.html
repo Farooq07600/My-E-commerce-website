@@ -412,21 +412,33 @@
     </div>
 </div>
 
-<div class="modal" id="camera-modal">
-    <div class="modal-content camera-modal-box">
-        <span class="close-modal" id="close-camera-btn">&times;</span>
+<div id="camera-modal">
+    <div class="modal-content-card">
         <h2>Visual Product Recognition</h2>
         <p>Position an item securely inside the canvas boundaries.</p>
-
-        <div class="webcam-wrapper">
+        
+        <div class="camera-viewport-container">
             <video id="webcam-stream" autoplay playsinline></video>
-            <div class="scan-frame"></div>
         </div>
-
-        <button class="checkout-btn" id="capture-btn">Scan Snapshot</button>
-        <canvas id="hidden-capture-canvas"></canvas>
+        
+        <div class="camera-actions-row">
+            <!-- Close Modal -->
+            <button class="secondary-media-action" id="close-camera-btn" title="Cancel">✕</button>
+            
+            <!-- Capture Snapshot Search -->
+            <button id="capture-btn" title="Capture & Search">📸</button>
+            
+            <!-- Gallery Search Input Node Wrapper -->
+            <label for="gallery-image-picker" class="secondary-media-action gallery-upload-label-node" title="Upload from Gallery">
+                📁
+                <input type="file" id="gallery-image-picker" accept="image/*">
+            </label>
+        </div>
     </div>
 </div>
+<!-- Kept for Background Rendering processing stream -->
+<canvas id="hidden-capture-canvas" style="display:none;"></canvas>
+
 
 <footer class="site-footer">
     <div class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">
